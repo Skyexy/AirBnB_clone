@@ -1,5 +1,5 @@
 from datetime import datetime
-from models import storage
+import models
 import uuid
 from json import JSONEncoder
 
@@ -7,28 +7,36 @@ from json import JSONEncoder
 class BaseModel:
     def __init__(self, **kwargs):
         if kwargs:
-            self.id = kwargs['id']
-            self.name = kwargs['name']
-            self.my_number = kwargs['my_number']
-            self.created_at = datetime.fromisoformat(kwargs['created_at'])
-            self.updated_at = datetime.fromisoformat(kwargs['updated_at'])
+            for key, value in kwargs.items():
+                if key == "created_at" or key == "updated_at":
+                    value = datetime.strptime(
+                        value,
+                        '%Y-%m-%dT%H:%M:%S.%f')
+                elif key == "__class__":
+                    continue
+
+                setattr(self, key, value)
         else:
             self.id = str(uuid.uuid1())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            storage.new(self)
+            models.storage.new(self)
 
     def save(self):
         self.updated_at = datetime.now()
-        storage.save()
+        models.storage.save()
 
     def to_dict(self):
-        dicta = {'my_number': self.my_number, 'name': self.name, '__class__': __class__.__name__,
-                 'updated_at': self.updated_at.isoformat(), 'id': self.id, 'created_at': self.created_at.isoformat()}
-        return dicta
+        dict_repr = {}
+        for key, value in self.__dict__.items():
+            dict_repr[key] = value
+            if isinstance(value, datetime):
+                dict_repr[key] = value.isoformat()
+        dict_repr["__class__"] = type(self).__name__
+        return dict_repr
 
     def __str__(self):
-        return "[{}] ({}) {}".format(__class__.__name__, self.id, self.__dict__)
+        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
 
 
 class BaseModelEncoder(JSONEncoder):
