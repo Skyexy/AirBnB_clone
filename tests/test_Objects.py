@@ -1,3 +1,4 @@
+"""Test file for the objects class"""
 import unittest
 from models.engine.file_storage import Objects
 from models.base_model import BaseModel
