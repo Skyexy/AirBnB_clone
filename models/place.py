@@ -1,7 +1,9 @@
+""" place module """
 from models.base_model import BaseModel
 
 
 class Place(BaseModel):
+    """ Place Class """
     city_id = ""
     user_id = ""
     description = ""
@@ -15,4 +17,5 @@ class Place(BaseModel):
     name = ""
 
     def __init__(self, *arg, **kwargs):
+        """ defualt"""
         super(Place, self).__init__(**kwargs)

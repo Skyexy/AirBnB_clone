@@ -1,3 +1,4 @@
+""" base_model Module for BaseModule and other classes"""
 from datetime import datetime
 import models
 import uuid
@@ -5,7 +6,9 @@ from json import JSONEncoder
 
 
 class BaseModel:
+    """ BaseModel class """
     def __init__(self, **kwargs):
+        """ init """
         if kwargs:
             for key, value in kwargs.items():
                 if key == "created_at" or key == "updated_at":
@@ -23,10 +26,12 @@ class BaseModel:
             models.storage.new(self)
 
     def save(self):
+        """ save """
         self.updated_at = datetime.now()
         models.storage.save()
 
     def to_dict(self):
+        """ save dict to dict_repr dictionary"""
         dict_repr = {}
         for key, value in self.__dict__.items():
             dict_repr[key] = value
@@ -36,6 +41,7 @@ class BaseModel:
         return dict_repr
 
     def __str__(self):
+        """ string representation of the class """
         return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
 
 
