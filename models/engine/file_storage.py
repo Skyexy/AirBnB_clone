@@ -1,3 +1,4 @@
+""" file storage module for object class """
 import json
 import models
 import os
@@ -22,21 +23,26 @@ class Objects(dict):
 
 
 class FileStorage:
+    """ FileStorage class"""
     __file_path = "file.json"
     __objects = {}
 
     def __init__(self):
+        """ init function """
         super().__init__()
 
     def all(self):
+        """ all """
         return self.__objects
 
     def new(self, obj):
+        """ new """
         if obj is not None:
             name = "{}.{}".format(type(obj).__name__, obj.id)
             self.__objects[name] = obj
 
     def save(self):
+        """ save objects into file """
         file = FileStorage.__file_path
         with open(file, mode="w", encoding="utf-8") as f:
             f.write(
@@ -47,6 +53,7 @@ class FileStorage:
             )
 
     def reload(self):
+        """ get objects from file """
         file = FileStorage.__file_path
         if os.path.isfile(file):
             try:
@@ -61,12 +68,26 @@ class FileStorage:
 
     def sho(self, obj_name, obj_id):
         """find object with id `obj_id`"""
-        return self.__objects["{}.{}".format(obj_name, obj_id)]
+        if "{}.{}".format(obj_name, obj_id) not in self.__objects:
+            raise Exception("** no instance found **")
+        else:
+            return self.__objects["{}.{}".format(obj_name, obj_id)]
 
     def delet(self, obj_name, obj_id):
-        return self.__objects.pop("{}.{}".format(obj_name, obj_id))
+        """ delete object with obj_name and obj_id """
+        if "{}.{}".format(obj_name, obj_id) not in self.__objects:
+            raise Exception("** no instance found **")
+        else:
+            return self.__objects.pop("{}.{}".format(obj_name, obj_id))
 
-    def update(self, obj_name, obj_id, attr, value):
-        """update object with id `obj_id`"""
-        model = self.__objects["{}.{}".format(obj_name, obj_id)]
-        setattr(model, attr, value)
+    def update(self, obj_name, obj_id, attr, value, **kwargs):
+        """update object with ob_name ob_id att and value"""
+        if "{}.{}".format(obj_name, obj_id) not in self.__objects:
+            raise Exception("** no instance found **")
+        else:
+            model = self.__objects["{}.{}".format(obj_name, obj_id)]
+            if not kwargs:
+                setattr(model, attr, value)
+            else:
+                for key in kwargs:
+                    setattr(model, key, kwargs[key])
