@@ -98,9 +98,9 @@ class HBNBCommand(cmd.Cmd):
             try:
                 model = models.classes[arg]
                 resp = []
-                for l in models.storage.all().values():
-                    if type(l) == model:
-                        resp.append(l.__str__())
+                for dictionary in models.storage.all().values():
+                    if type(dictionary) == model:
+                        resp.append(dictionary.__str__())
                 print(resp)
             except Exception as e:
                 print(e)
@@ -139,17 +139,17 @@ class HBNBCommand(cmd.Cmd):
             if model_com == "all()":
                 try:
                     class__all = []
-                    for l in models.storage.all().values():
-                        if type(l) == model:
-                            class__all.append(l.__str__())
+                    for dictionary in models.storage.all().values():
+                        if type(dictionary) == model:
+                            class__all.append(dictionary.__str__())
                     print(class__all)
                 except Exception as e:
                     print(e)
             elif model_com == "count()":
                 try:
                     count = 0
-                    for l in models.storage.all().values():
-                        if type(l) == model:
+                    for dictionary in models.storage.all().values():
+                        if type(dictionary) == model:
                             count += 1
                     print(count)
                 except Exception as e:
