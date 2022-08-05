@@ -32,7 +32,7 @@ class TestClass(unittest.TestCase):
 
         self.storage.new(self.model)
         self.assertIs(
-            self.storage.find('BaseModel', self.model.id), self.model
+            self.storage.sho('BaseModel', self.model.id), self.model
             )
 
     def test_find_object_not_found(self):
@@ -41,7 +41,7 @@ class TestClass(unittest.TestCase):
         self.assertRaisesRegex(
             Exception,
             'no instance found',
-            self.storage.find,
+            self.storage.sho,
             'BaseModel',
             'does-not-exist')
 
