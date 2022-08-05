@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """ amenity module for Amenity class"""
 from models.base_model import BaseModel
 
