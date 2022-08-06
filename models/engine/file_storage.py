@@ -6,7 +6,7 @@ import os
 
 
 class Objects(dict):
-    """class object"""
+	"""class object"""
 
     def __getitem__(self, key):
         """get item"""
@@ -92,3 +92,16 @@ class FileStorage:
             else:
                 for key in kwargs:
                     setattr(model, key, kwargs[key])
+
+	def update_dict(self, obj_name, obj_id, dict={}):
+		"""update object with ob_name ob_id att and value"""
+		if "{}.{}".format(obj_name, obj_id) not in self.__objects:
+			raise Exception("** no instance found **")
+		else:
+			model = self.__objects["{}.{}".format(obj_name, obj_id)]
+			res = ast.literal_eval(dict)
+			if res == {}:
+				raise Exception("**insert dictionary**")
+			else:
+				for key in res:
+					setattr(model, key, res[key])
