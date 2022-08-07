@@ -43,7 +43,8 @@ class BaseModel:
 
     def __str__(self):
         """ string representation of the class """
-        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
+        return "[{}] ({}) {}".format(self.__class__.__name__,
+                                     self.id, self.__dict__)
 
 
 class BaseModelEncoder(JSONEncoder):
