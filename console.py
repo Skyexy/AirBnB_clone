@@ -10,7 +10,7 @@ class HBNBCommand(cmd.Cmd):
     """ cmd for command interpreter """
     prompt = '(hbnb) '
 
-     def __init__(self, completekey='tab', stdin=None, stdout=None):
+    def __init__(self, completekey='tab', stdin=None, stdout=None):
         """init method"""
         super().__init__(completekey, stdin, stdout)
 
