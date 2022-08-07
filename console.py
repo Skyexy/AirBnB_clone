@@ -4,7 +4,6 @@ import cmd
 from models.base_model import BaseModel
 import re
 import models
-import sys
 
 
 class HBNBCommand(cmd.Cmd):
@@ -30,6 +29,10 @@ class HBNBCommand(cmd.Cmd):
     def help_quit(self):
         """ help_quit """
         print('Quit command to exit the program')
+    
+    def help_create(self):
+        """ help_EOF """
+        print('create cinstances of a class')
 
     def emptyline(self):
         """ empty_line overrider """
