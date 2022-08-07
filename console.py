@@ -8,11 +8,11 @@ import models
 
 class HBNBCommand(cmd.Cmd):
     """ cmd for command interpreter """
+    prompt = '(hbnb) '
 
-    def __init__(self):
-        """ default """
-        cmd.Cmd.__init__(self)
-        self.prompt = "(hbnb) \n"
+    def __init__(self, completekey='tab', stdin=None, stdout=None):
+        """init method"""
+        super().__init__(completekey, stdin, stdout)
 
     def do_quit(self, arg):
         """ quit """
