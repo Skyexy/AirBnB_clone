@@ -1,189 +1,209 @@
 #!/usr/bin/python3
-""" console module """
+"""Defines the HBnB console."""
 import cmd
-from models.base_model import BaseModel
 import re
-import models
+from shlex import split
+from models import storage
+from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.place import Place
+from models.amenity import Amenity
+from models.review import Review
+
+
+def parse(arg):
+    curly_braces = re.search(r"\{(.*?)\}", arg)
+    brackets = re.search(r"\[(.*?)\]", arg)
+    if curly_braces is None:
+        if brackets is None:
+            return [i.strip(",") for i in split(arg)]
+        else:
+            lexer = split(arg[:brackets.span()[0]])
+            retl = [i.strip(",") for i in lexer]
+            retl.append(brackets.group())
+            return retl
+    else:
+        lexer = split(arg[:curly_braces.span()[0]])
+        retl = [i.strip(",") for i in lexer]
+        retl.append(curly_braces.group())
+        return retl
 
 
 class HBNBCommand(cmd.Cmd):
-    """ cmd for command interpreter """
-    prompt = '(hbnb) '
+    """Defines the HolbertonBnB command interpreter.
+    Attributes:
+        prompt (str): The command prompt.
+    """
 
-    def __init__(self, completekey='tab', stdin=None, stdout=None):
-        """init method"""
-        super().__init__(completekey, stdin, stdout)
-
-    def do_quit(self, arg):
-        """ quit """
-        sys.exit(1)
-
-    def do_EOF(self, line):
-        """ EOF """
-        return True
-
-    def help_EOF(self):
-        """ help_EOF """
-        print('EOF command to exit the program')
-
-    def help_quit(self):
-        """ help_quit """
-        print('Quit command to exit the program')
-    
-    def help_create(self):
-        """ help_EOF """
-        print('create cinstances of a class')
+    prompt = "(hbnb) "
+    __classes = {
+        "BaseModel",
+        "User",
+        "State",
+        "City",
+        "Place",
+        "Amenity",
+        "Review"
+    }
 
     def emptyline(self):
-        """ empty_line overrider """
-        if self.lastcmd:
-            self.lastcmd = ""
-            return self.onecmd('\n')
+        """Do nothing upon receiving an empty line."""
+        pass
+
+    def default(self, arg):
+        """Default behavior for cmd module when input is invalid"""
+        argdict = {
+            "all": self.do_all,
+            "show": self.do_show,
+            "destroy": self.do_destroy,
+            "count": self.do_count,
+            "update": self.do_update
+        }
+        match = re.search(r"\.", arg)
+        if match is not None:
+            argl = [arg[:match.span()[0]], arg[match.span()[1]:]]
+            match = re.search(r"\((.*?)\)", argl[1])
+            if match is not None:
+                command = [argl[1][:match.span()[0]], match.group()[1:-1]]
+                if command[0] in argdict.keys():
+                    call = "{} {}".format(argl[0], command[1])
+                    return argdict[command[0]](call)
+        print("*** Unknown syntax: {}".format(arg))
+        return False
+
+    def do_quit(self, arg):
+        """Quit command to exit the program."""
+        return True
+
+    def do_EOF(self, arg):
+        """EOF signal to exit the program."""
+        print("")
+        return True
 
     def do_create(self, arg):
-        """ do_create create new class instance """
-        if not arg:
-            print(" ** class name missing ** ")
+        """Usage: create <class>
+        Create a new class instance and print its id.
+        """
+        argl = parse(arg)
+        if len(argl) == 0:
+            print("** class name missing **")
+        elif argl[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
         else:
-            try:
-                model = models.classes[arg]()
-                models.storage.new(model)
-                models.storage.save()
-                print(model.id)
-            except Exception as e:
-                print(e)
+            print(eval(argl[0])().id)
+            storage.save()
 
     def do_show(self, arg):
-        """ do_show: show objects of a instance """
-        if arg == "":
-            print('** class name missing **')
-            return
+        """Usage: show <class> <id> or <class>.show(<id>)
+        Display the string representation of a class instance of a given id.
+        """
+        argl = parse(arg)
+        objdict = storage.all()
+        if len(argl) == 0:
+            print("** class name missing **")
+        elif argl[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+        elif len(argl) == 1:
+            print("** instance id missing **")
+        elif "{}.{}".format(argl[0], argl[1]) not in objdict:
+            print("** no instance found **")
         else:
-            try:
-                model_name, model_id = arg.split(' ')
-                models.classes[model_name]()
-                model = models.storage.sho(model_name, model_id)
-                print(model)
-            except Exception as e:
-                if arg.count(' ') > 1:
-                    print("** too many arguments (2 arguments required)**")
-                elif arg.count(' ') == 0:
-                    print("** instance id missing **")
-                else:
-                    print(e)
+            print(objdict["{}.{}".format(argl[0], argl[1])])
 
     def do_destroy(self, arg):
-        """ do_destroy: destroy a instance"""
-        if arg == "":
-            print('** class name missing **')
-            return
+        """Usage: destroy <class> <id> or <class>.destroy(<id>)
+        Delete a class instance of a given id."""
+        argl = parse(arg)
+        objdict = storage.all()
+        if len(argl) == 0:
+            print("** class name missing **")
+        elif argl[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+        elif len(argl) == 1:
+            print("** instance id missing **")
+        elif "{}.{}".format(argl[0], argl[1]) not in objdict.keys():
+            print("** no instance found **")
         else:
-            try:
-                model_name, model_id = arg.split(' ')
-                models.classes[model_name]()
-                models.storage.delet(model_name, model_id)
-                models.storage.save()
-            except Exception as e:
-                if arg != BaseModel:
-                    print("** class doesn't exist **")
-                elif arg.count(' ') > 1:
-                    print("** too many arguments (2 arguments required)**")
-                elif arg.count(' ') == 0:
-                    print("** instance id missing **")
-                else:
-                    print(e)
+            del objdict["{}.{}".format(argl[0], argl[1])]
+            storage.save()
 
     def do_all(self, arg):
-        """ do_all: show all objects """
-        if arg == "":
-            print([x.__str__() for x in models.storage.all().values()])
+        """Usage: all or all <class> or <class>.all()
+        Display string representations of all instances of a given class.
+        If no class is specified, displays all instantiated objects."""
+        argl = parse(arg)
+        if len(argl) > 0 and argl[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
         else:
-            try:
-                model = models.classes[arg]
-                resp = []
-                for dictionary in models.storage.all().values():
-                    if type(dictionary) == model:
-                        resp.append(dictionary.__str__())
-                print(resp)
-            except Exception as e:
-                print(e)
+            objl = []
+            for obj in storage.all().values():
+                if len(argl) > 0 and argl[0] == obj.__class__.__name__:
+                    objl.append(obj.__str__())
+                elif len(argl) == 0:
+                    objl.append(obj.__str__())
+            print(objl)
+
+    def do_count(self, arg):
+        """Usage: count <class> or <class>.count()
+        Retrieve the number of instances of a given class."""
+        argl = parse(arg)
+        count = 0
+        for obj in storage.all().values():
+            if argl[0] == obj.__class__.__name__:
+                count += 1
+        print(count)
 
     def do_update(self, arg):
-        """ do_update: update a instance with attr and value """
-        if arg == "":
-            print('** class name missing **')
-            return
-        else:
+        """Usage: update <class> <id> <attribute_name> <attribute_value> or
+       <class>.update(<id>, <attribute_name>, <attribute_value>) or
+       <class>.update(<id>, <dictionary>)
+        Update a class instance of a given id by adding or updating
+        a given attribute key/value pair or dictionary."""
+        argl = parse(arg)
+        objdict = storage.all()
+
+        if len(argl) == 0:
+            print("** class name missing **")
+            return False
+        if argl[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+            return False
+        if len(argl) == 1:
+            print("** instance id missing **")
+            return False
+        if "{}.{}".format(argl[0], argl[1]) not in objdict.keys():
+            print("** no instance found **")
+            return False
+        if len(argl) == 2:
+            print("** attribute name missing **")
+            return False
+        if len(argl) == 3:
             try:
-                value = arg.split(' ')
-                model_name = value[0]
-                model_id = value[1]
-                attr = value[2]
-                value1 = value[3]
-                models.classes[model_name]()
-                value1 = value1.split('"')[1]
-                models.storage.update(model_name, model_id, attr, value1)
-                models.storage.save()
-            except Exception as e:
-                if arg.count(' ') == 0:
-                    print("** instance id missing **")
-                elif arg.count(' ') == 1:
-                    print("** attribute name missing **")
-                elif arg.count(' ') == 2:
-                    print("** value missing **")
+                type(eval(argl[2])) != dict
+            except NameError:
+                print("** value missing **")
+                return False
+
+        if len(argl) == 4:
+            obj = objdict["{}.{}".format(argl[0], argl[1])]
+            if argl[2] in obj.__class__.__dict__.keys():
+                valtype = type(obj.__class__.__dict__[argl[2]])
+                obj.__dict__[argl[2]] = valtype(argl[3])
+            else:
+                obj.__dict__[argl[2]] = argl[3]
+        elif type(eval(argl[2])) == dict:
+            obj = objdict["{}.{}".format(argl[0], argl[1])]
+            for k, v in eval(argl[2]).items():
+                if (k in obj.__class__.__dict__.keys() and
+                        type(obj.__class__.__dict__[k]) in {str, int, float}):
+                    valtype = type(obj.__class__.__dict__[k])
+                    obj.__dict__[k] = valtype(v)
                 else:
-                    print(e)
-
-    def default(self, line):
-        """ do_default: for commands not in others """
-        model_name, model_com = line.split('.')
-        try:
-            model = models.classes[model_name]()
-            if model_com == "all()":
-                try:
-                    class__all = []
-                    for dictionary in models.storage.all().values():
-                        if type(dictionary) == model:
-                            class__all.append(dictionary.__str__())
-                    print(class__all)
-                except Exception as e:
-                    print(e)
-            elif model_com == "count()":
-                try:
-                    count = 0
-                    for dictionary in models.storage.all().values():
-                        if type(dictionary) == model:
-                            count += 1
-                    print(count)
-                except Exception as e:
-                    print(e)
-            elif model_com[0:4] == "show":
-                mod1 = model_com.split('"')[1]
-                try:
-                    sho = models.storage.sho(model_name, mod1)
-                    print(sho)
-                except Exception as e:
-                    print(e)
-            elif model_com[0:7] == "destroy":
-                mod1 = model_com.split('"')[1]
-                try:
-                    models.storage.delet(model_name, mod1)
-                    models.storage.save()
-                except Exception as e:
-                    print(e)
-            elif model_com[0:6] == "update":
-                mod1 = re.split(r'\(', model_com)
-                print(mod1)
-                """""
-            try:
-                models.storage.update(model_name, modid, attname, attvalue)
-                models.storage.save()
-            except Exception as e:
-                print(e)
-                """""
-        except Exception as e:
-            print(e)
+                    obj.__dict__[k] = v
+        storage.save()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     HBNBCommand().cmdloop()
