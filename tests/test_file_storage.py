@@ -8,6 +8,7 @@ from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
 import os
 
+
 class TestClass(unittest.TestCase):
     """Test cases"""
 
@@ -60,14 +61,15 @@ class TestClass(unittest.TestCase):
     def test_reload_function(self):
         """reload function"""
         pass
-    
+
     def update(self):
         """reload function"""
         pass
-    
+
     def update_dict(self):
         """reload function"""
         pass
+
     def delet(self):
         """reload function"""
         pass
