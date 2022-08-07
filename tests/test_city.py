@@ -35,6 +35,10 @@ class TestClass(unittest.TestCase):
         """initialze class attribute"""
         self.city.name = "kigali"
         self.assertIs(self.city.name, 'kigali')
+    def test_id(self):
+        """initialze class attribute"""
+        self.city.state_id = "kigali"
+        self.assertIs(self.city.state_id, 'kigali')
 
         cm = City()
 
