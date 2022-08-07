@@ -60,6 +60,17 @@ class TestClass(unittest.TestCase):
     def test_reload_function(self):
         """reload function"""
         pass
+    
+    def update(self):
+        """reload function"""
+        pass
+    
+    def update_dict(self):
+        """reload function"""
+        pass
+    def delet(self):
+        """reload function"""
+        pass
 
     def test_function_all(self):
         """all functions"""

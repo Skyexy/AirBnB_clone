@@ -3,12 +3,15 @@
 Test file for the base_mode class
 """
 
+import os
+import time
+import json
 import unittest
+from datetime import datetime
+from models import storage
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 import models
-import json
-import os
 
 
 class TestClass(unittest.TestCase):
@@ -29,9 +32,8 @@ class TestClass(unittest.TestCase):
             file_string = f.read()
             data = json.loads(file_string)
 
-        self.assertTrue(
-                '{}.{}'.format(type(self.model).__name__, self.model.id) in data
-            )
+        self.assertTrue('{}.{}'.format(type(self.model).__name__,
+                        self.model.id) in data)
 
         self.assertDictEqual(
             self.model.to_dict(),
@@ -74,6 +76,53 @@ class TestClass(unittest.TestCase):
             'name': self.model.name,
             'my_number': self.model.my_number,
             '__class__': BaseModel.__name__})
+
+    def test_init(self):
+        """test basemodel init"""
+        snapshot = datetime.now()
+        bm1 = BaseModel()
+        snapahot2 = datetime.now()
+
+        self.assertIsInstance(bm1.id, str)
+        self.assertTrue(len(bm1.id) > 0)
+        self.assertTrue('BaseModel.' + bm1.id in storage.all().keys())
+
+        self.assertIsInstance(bm1.created_at, datetime)
+        self.assertLess(bm1.created_at, snapshot2)
+        self.assertGreater(bm1.created_at, snapshot)
+
+        self.assertIsInstance(bm1.updated_at, datetime)
+        self.assertLess(bm1.updated_at, snapshot2)
+        self.assertGreater(bm1.updated_at, snapshot)
+
+        bm1.save()
+        self.assertIsInstance(bm1.updated_at, datetime)
+        self.assertGreater(bm1.updated_at, snapshot)
+        self.assertGreater(bm1.updated_at, snapshot2)
+        del bm1
+
+    def test_init_dict(self):
+        """test Basemodel dict init"""
+        test_dict = {'updated_at': datetime(2022, 11, 06, 12, 30, 00, 716921)
+                     .isoformat('T'),
+                     'id': '5361a11b-615c-42bf-9bdb-e2c3790ada14',
+                     'created_at': datetime(2022, 11, 06, 12, 30, 00, 716921)
+                     .isoformat('T')}
+        bm2 = BaseModel(**test_dict)
+
+        self.assertIsInstance(bm2.id, str)
+        self.assertTrue(len(bm2.id) > 0)
+        self.assertTrue(bm2.id == test_dict['id'])
+
+        self.assertIsInstance(bm2.created_at, datetime)
+        self.assertTrue(bm2.created_at.isoformat('T') == test_dict
+                        ['created_at'])
+        self.assertIsInstance(bm2.updated_at, datetime)
+        self.assertTrue(bm2.updated_at.isoformat('T') == test_dict
+                        ['updated_at'])
+        bm2.save()
+        self.assertGreater(bm2.updated_at, bm2.created_at)
+        del bm2
 
 
 if __name__ == '__main__':
