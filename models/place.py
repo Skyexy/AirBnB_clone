@@ -16,7 +16,3 @@ class Place(BaseModel):
     longitude = 0.0
     amenity_ids = []
     name = ""
-
-    def __init__(self, *arg, **kwargs):
-        """ defualt"""
-        super(Place, self).__init__(**kwargs)
