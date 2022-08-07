@@ -41,10 +41,10 @@ class TestClass(unittest.TestCase):
 
     def test_init_dict(self):
         """test basemodel dict init"""
-        test_dict = {'updated_at': datetime(2022, 11, 22, 12, 30, 00, 716921)
+        test_dict = {'updated_at': datetime(2022, 5, 22, 12, 30, 00, 716921)
                      .isoformat('T'),
                      'id': '5361a11b-615c-42bf-9bdb-e2c3790ada14',
-                     'created_at': datetime(2022, 11, 22, 12, 30, 00, 716921)
+                     'created_at': datetime(2022, 5, 22, 12, 30, 00, 716921)
                      .isoformat('T')}
         pm2 = Place(**test_dict)
 
@@ -70,7 +70,7 @@ class TestClass(unittest.TestCase):
         self.assertTrue(hasattr(pm3, "user_id"))
         self.assertTrue(hasattr(pm3, "name"))
         self.assertTrue(hasattr(pm3, "description"))
-        self.assertTrue(hasattr(pm3, "number_rooms"))
+        self.assertTrue(hasattr(pm3, "number_room"))
         self.assertTrue(hasattr(pm3, "number_bathrooms"))
         self.assertTrue(hasattr(pm3, "max_guest"))
         self.assertTrue(hasattr(pm3, "price_by_night"))
@@ -82,7 +82,7 @@ class TestClass(unittest.TestCase):
         self.assertIsInstance(pm3.user_id, str)
         self.assertIsInstance(pm3.name, str)
         self.assertIsInstance(pm3.description, str)
-        self.assertIsInstance(pm3.number_rooms, int)
+        self.assertIsInstance(pm3.number_room, int)
         self.assertIsInstance(pm3.number_bathrooms, int)
         self.assertIsInstance(pm3.max_guest, int)
         self.assertIsInstance(pm3.price_by_night, int)
