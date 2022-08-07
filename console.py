@@ -1,18 +1,42 @@
 #!/usr/bin/python3
 """ console module """
 import cmd
-from models.base_model import BaseModel
 import re
-import models
+from shlex import split
+from models import storage
+from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.place import Place
+from models.amenity import Amenity
+from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
     """ cmd for command interpreter """
     prompt = '(hbnb) '
-
-    def __init__(self, completekey='tab', stdin=None, stdout=None):
-        """init method"""
-        super().__init__(completekey, stdin, stdout)
+    
+    def default(self, arg):
+        """Default behavior for cmd module when input is invalid"""
+        argdict = {
+            "all": self.do_all,
+            "show": self.do_show,
+            "destroy": self.do_destroy,
+            "count": self.do_count,
+            "update": self.do_update
+        }
+        match = re.search(r"\.", arg)
+        if match is not None:
+            argl = [arg[:match.span()[0]], arg[match.span()[1]:]]
+            match = re.search(r"\((.*?)\)", argl[1])
+            if match is not None:
+                command = [argl[1][:match.span()[0]], match.group()[1:-1]]
+                if command[0] in argdict.keys():
+                    call = "{} {}".format(argl[0], command[1])
+                    return argdict[command[0]](call)
+        print("*** Unknown syntax: {}".format(arg))
+        return False
 
     def do_quit(self, arg):
         """ quit """
@@ -52,6 +76,16 @@ class HBNBCommand(cmd.Cmd):
                 print(model.id)
             except Exception as e:
                 print(e)
+
+    def do_count(self, arg):
+        """Usage: count <class> or <class>.count()
+        Retrieve the number of instances of a given class."""
+        argl = parse(arg)
+        count = 0
+        for obj in storage.all().values():
+            if argl[0] == obj.__class__.__name__:
+                count += 1
+        print(count)
 
     def do_show(self, arg):
         """ do_show: show objects of a instance """
@@ -133,57 +167,5 @@ class HBNBCommand(cmd.Cmd):
                     print("** value missing **")
                 else:
                     print(e)
-
-    def default(self, line):
-        """ do_default: for commands not in others """
-        model_name, model_com = line.split('.')
-        try:
-            model = models.classes[model_name]()
-            if model_com == "all()":
-                try:
-                    class__all = []
-                    for dictionary in models.storage.all().values():
-                        if type(dictionary) == model:
-                            class__all.append(dictionary.__str__())
-                    print(class__all)
-                except Exception as e:
-                    print(e)
-            elif model_com == "count()":
-                try:
-                    count = 0
-                    for dictionary in models.storage.all().values():
-                        if type(dictionary) == model:
-                            count += 1
-                    print(count)
-                except Exception as e:
-                    print(e)
-            elif model_com[0:4] == "show":
-                mod1 = model_com.split('"')[1]
-                try:
-                    sho = models.storage.sho(model_name, mod1)
-                    print(sho)
-                except Exception as e:
-                    print(e)
-            elif model_com[0:7] == "destroy":
-                mod1 = model_com.split('"')[1]
-                try:
-                    models.storage.delet(model_name, mod1)
-                    models.storage.save()
-                except Exception as e:
-                    print(e)
-            elif model_com[0:6] == "update":
-                mod1 = re.split(r'\(', model_com)
-                print(mod1)
-                """""
-            try:
-                models.storage.update(model_name, modid, attname, attvalue)
-                models.storage.save()
-            except Exception as e:
-                print(e)
-                """""
-        except Exception as e:
-            print(e)
-
-
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
