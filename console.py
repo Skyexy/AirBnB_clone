@@ -12,7 +12,7 @@ class HBNBCommand(cmd.Cmd):
     def __init__(self):
         """ default """
         cmd.Cmd.__init__(self)
-        self.prompt = "(hbnb) "
+        self.prompt = "(hbnb) \n"
 
     def do_quit(self, arg):
         """ quit """
