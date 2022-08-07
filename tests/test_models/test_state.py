@@ -26,7 +26,7 @@ class TestClass(unittest.TestCase):
         self.assertTrue('State.' + sm1.id in storage.all().keys())
 
         self.assertIsInstance(sm1.created_at, datetime)
-        self.assertLess(sm1.created_at, snapahot2)
+        self.assertLess(sm1.created_at, snapshot2)
         self.assertGreater(sm1.created_at, snapshot)
 
         self.assertIsInstance(sm1.updated_at, datetime)
@@ -41,10 +41,10 @@ class TestClass(unittest.TestCase):
 
     def test_init_dict(self):
         """test basemode dict init"""
-        test_dict = {'updated_at': datetime(2022, 11, 06, 12, 30, 00, 716921)
+        test_dict = {'updated_at': datetime(2022, 11, 22, 12, 30, 00, 716921)
                      .isoformat('T'),
                      'id': '5361a11b-615c-42bf-9bdb-e2c3790ada14',
-                     'created_at': datetime(2022, 11, 06, 12, 30, 00, 716921)
+                     'created_at': datetime(2022, 11, 22, 12, 30, 00, 716921)
                      .isoformat('T')}
         sm2 = State(**test_dict)
 

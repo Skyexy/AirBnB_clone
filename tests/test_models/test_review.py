@@ -40,12 +40,12 @@ class TestClass(unittest.TestCase):
 
     def test_init_dict(self):
         """test basemodel dict init"""
-        test_dict = {'updated_at': datetime(2022, 11, 06, 12, 30, 00, 716921)
+        test_dict = {'updated_at': datetime(2022, 11, 22, 12, 30, 00, 716921)
                      .isoformat('T'),
                      'id': '5361a11b-615c-42bf-9bdb-e2c3790ada14',
-                     'created_at': datetime(2022, 11, 06, 12, 30, 00, 716921)
+                     'created_at': datetime(2022, 11, 22, 12, 30, 00, 716921)
                      .isoformat('T')}
-        rm2 = City(**test_dict)
+        rm2 = Review(**test_dict)
 
         self.assertIsInstance(rm2.id, str)
         self.assertTrue(len(rm2.id) > 0)
@@ -54,7 +54,7 @@ class TestClass(unittest.TestCase):
         self.assertIsInstance(rm2.created_at, datetime)
         self.assertTrue(rm2.created_at.isoformat('T') == test_dict
                         ['created_at'])
-        self.assertIsInstance(rm.updated_at, datetime)
+        self.assertIsInstance(rm2.updated_at, datetime)
         self.assertTrue(rm2.updated_at.isoformat('T') == test_dict
                         ['updated_at'])
         rm2.save()

@@ -28,7 +28,7 @@ class TestFileStorage(unittest.TestCase):
         for exists in fs1.all().keys():
             list_all.append(fs1.all()[exists])
         for exists in list_all:
-            del fs1.all()[exists.name]
+            del fs1.all()[exists.__class__.__name__ + '.' + exists.id]
 
         self.assertIsInstance(fs1.all(), dict)
         self.assertEqual(fs1.all(), {})
