@@ -9,24 +9,6 @@ from models.amenity import Amenity
 from models.review import Review
 
 
-class Objects(dict):
-    """class object"""
-
-    def __getitem__(self, key):
-        """get item"""
-        try:
-            return super(Objects, self).__getitem__(key)
-        except Exception as e:
-            raise Exception("** no instance found **")
-
-    def pop(self, key):
-        """pop item"""
-        try:
-            return super(Objects, self).pop(key)
-        except Exception as e:
-            raise Exception("** no instance found **")
-
-
 class FileStorage:
     """ FileStorage class"""
     __file_path = "file.json"
