@@ -1,12 +1,34 @@
 """ file storage module for object class """
 import json
+import models
+import os
+import ast
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
 from models.city import City
 from models.place import Place
 from models.amenity import Amenity
-from models.review import 
+from models.review import Review
+
+
+class Objects(dict):
+    """class object"""
+
+    def __getitem__(self, key):
+        """get item"""
+        try:
+            return super(Objects, self).__getitem__(key)
+        except Exception as e:
+            raise Exception("** no instance found **")
+
+    def pop(self, key):
+        """pop item"""
+        try:
+            return super(Objects, self).pop(key)
+        except Exception as e:
+            raise Exception("** no instance found **")
+
 
 class FileStorage:
     """ FileStorage class"""
@@ -33,6 +55,7 @@ class FileStorage:
         objdict = {obj: odict[obj].to_dict() for obj in odict.keys()}
         with open(FileStorage.__file_path, "w") as f:
             json.dump(objdict, f)
+
     def reload(self):
         """Deserialize the JSON file __file_path to __objects, if it exists."""
         try:
