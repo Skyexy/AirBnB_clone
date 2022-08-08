@@ -1,8 +1,5 @@
 """ file storage module for object class """
 import json
-import models
-import os
-import ast
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
