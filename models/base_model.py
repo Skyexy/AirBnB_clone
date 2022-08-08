@@ -1,58 +1,49 @@
 #!/usr/bin/python3
-""" base_model Module for BaseModule and other classes"""
-from datetime import datetime
+"""Defines the BaseModel class."""
 import models
-import uuid
-from json import JSONEncoder
+from uuid import uuid4
+from datetime import datetime
 
 
 class BaseModel:
-    """ BaseModel class """
-    def __init__(self, **kwargs):
-        """ init """
-        if kwargs:
-            for key, value in kwargs.items():
-                if key == "created_at" or key == "updated_at":
-                    value = datetime.strptime(
-                        value,
-                        '%Y-%m-%dT%H:%M:%S.%f')
-                elif key == "__class__":
-                    continue
+    """Represents the BaseModel of the HBnB project."""
 
-                setattr(self, key, value)
+    def __init__(self, *args, **kwargs):
+        """Initialize a new BaseModel.
+        Args:
+            *args (any): Unused.
+            **kwargs (dict): Key/value pairs of attributes.
+        """
+        tform = "%Y-%m-%dT%H:%M:%S.%f"
+        self.id = str(uuid4())
+        self.created_at = datetime.today()
+        self.updated_at = datetime.today()
+        if len(kwargs) != 0:
+            for k, v in kwargs.items():
+                if k == "created_at" or k == "updated_at":
+                    self.__dict__[k] = datetime.strptime(v, tform)
+                else:
+                    self.__dict__[k] = v
         else:
-            self.id = str(uuid.uuid1())
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
             models.storage.new(self)
 
     def save(self):
-        """ save """
-        self.updated_at = datetime.now()
+        """Update updated_at with the current datetime."""
+        self.updated_at = datetime.today()
         models.storage.save()
 
     def to_dict(self):
-        """ save dict to dict_repr dictionary"""
-        dict_repr = {}
-        for key, value in self.__dict__.items():
-            dict_repr[key] = value
-            if isinstance(value, datetime):
-                dict_repr[key] = value.isoformat()
-        dict_repr["__class__"] = type(self).__name__
-        return dict_repr
+        """Return the dictionary of the BaseModel instance.
+        Includes the key/value pair __class__ representing
+        the class name of the object.
+        """
+        rdict = self.__dict__.copy()
+        rdict["created_at"] = self.created_at.isoformat()
+        rdict["updated_at"] = self.updated_at.isoformat()
+        rdict["__class__"] = self.__class__.__name__
+        return rdict
 
     def __str__(self):
-        """ string representation of the class """
-        return "[{}] ({}) {}".format(self.__class__.__name__,
-                                     self.id, self.__dict__)
-
-
-class BaseModelEncoder(JSONEncoder):
-    """JSON Encoder for BaseModel
-    """
-
-    def default(self, o):
-        """ default"""
-        if isinstance(o, BaseModel):
-            return o.to_dict()
-        return super().default(o)
+        """Return the print/str representation of the BaseModel instance."""
+        clname = self.__class__.__name__
+        return "[{}] ({}) {}".format(clname, self.id, self.__dict__)
