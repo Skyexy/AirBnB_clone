@@ -1,27 +1,12 @@
 """ file storage module for object class """
 import json
-import models
-import os
-import ast
-
-
-class Objects(dict):
-    """class object"""
-
-    def __getitem__(self, key):
-        """get item"""
-        try:
-            return super(Objects, self).__getitem__(key)
-        except Exception as e:
-            raise Exception("** no instance found **")
-
-    def pop(self, key):
-        """pop item"""
-        try:
-            return super(Objects, self).pop(key)
-        except Exception as e:
-            raise Exception("** no instance found **")
-
+from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.place import Place
+from models.amenity import Amenity
+from models.review import 
 
 class FileStorage:
     """ FileStorage class"""
@@ -48,17 +33,14 @@ class FileStorage:
         objdict = {obj: odict[obj].to_dict() for obj in odict.keys()}
         with open(FileStorage.__file_path, "w") as f:
             json.dump(objdict, f)
-
     def reload(self):
-        """ get objects from file """
-        file = FileStorage.__file_path
-        if os.path.isfile(file):
-            try:
-                with open(file, 'r+', encoding="utf-8") as fp:
-                    data = json.loads(fp.read())
-                    for object_key, model_data in data.items():
-                        model_name, model_id = object_key.split('.')
-                        model = models.classes[model_name](**model_data)
-                        self.new(model)
-            except Exception as e:
-                print(e)
+        """Deserialize the JSON file __file_path to __objects, if it exists."""
+        try:
+            with open(FileStorage.__file_path) as f:
+                objdict = json.load(f)
+                for o in objdict.values():
+                    cls_name = o["__class__"]
+                    del o["__class__"]
+                    self.new(eval(cls_name)(**o))
+        except FileNotFoundError:
+            return
