@@ -1,4 +1,4 @@
-""" file storage module for object class """
+"""Defines the FileStorage class."""
 import json
 from models.base_model import BaseModel
 from models.user import User
@@ -10,23 +10,22 @@ from models.review import Review
 
 
 class FileStorage:
-    """ FileStorage class"""
+    """Represent an abstracted storage engine.
+    Attributes:
+        __file_path (str): The name of the file to save objects to.
+        __objects (dict): A dictionary of instantiated objects.
+    """
     __file_path = "file.json"
     __objects = {}
 
-    def __init__(self):
-        """ init function """
-        super().__init__()
-
     def all(self):
-        """ all """
-        return self.__objects
+        """Return the dictionary __objects."""
+        return FileStorage.__objects
 
     def new(self, obj):
-        """ new """
-        if obj is not None:
-            name = "{}.{}".format(type(obj).__name__, obj.id)
-            self.__objects[name] = obj
+        """Set in __objects obj with key <obj_class_name>.id"""
+        ocname = obj.__class__.__name__
+        FileStorage.__objects["{}.{}".format(ocname, obj.id)] = obj
 
     def save(self):
         """Serialize __objects to the JSON file __file_path."""
