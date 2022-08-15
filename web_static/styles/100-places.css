@@ -1,157 +1,252 @@
-.places{
-    text-align: center;
-}
-.places h1{
-    top: 0;
-    text-align: left;
-    width: 100%;
-    height: 50px;
-    margin: 10px;
-    font-size: 30px;
-}
-
-article{
-    text-align: left;
-    display: inline-block;
-    align-items:center;
-    width: 390px;
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid #FF5A5F;
-    border-radius: 4px;
-}
-article h2{
-    text-align: center;
-    font-size: 30px;
-    margin: 0 auto;
-}
-.price_by_night{
-    top: 0;
-    float:right;
-    padding: 5px;
-    text-align: center;
-    border: 4px solid #FF5A5F;
-    min-width: 60px;
-    height: 60px;
-    border-radius: 50%;
-}
-.price_by_night p{
-    margin: 12px auto;
-    color: #FF5A5F;
-    font-size: 30px;
-}
-.information{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 80px;
-    border-top: 1px solid #DDDDDD;
-    border-bottom: 1px solid #DDDDDD;
-}
-.max_guest{
-    display: grid;
-    place-items: center;
-    width: 100px;
-}
-.number_rooms{
-    display: grid;
-    place-items: center;
-    width: 100px;
-}
-.number_bathrooms{
-    display: grid;
-    place-items: center;
-    width: 100px;
-}
-.icon1{
-    content: url(../img/icon_group.png);
-}
-.icon2{
-    content: url(../img/icon_bed.png);
-}
-.icon3{
-    content: url(../img/icon_bath.png);
-}
-.max_guest p{
-    margin: 0px;
-}
-.number_rooms p{
-    margin: 0px;
-}
-.number_bathrooms p{
-    margin: 0px;
-}
-article .user p{
-    margin: 15px auto;
-}
-article .amenities{
-    width: 100%;
-    margin-top: 40px
-}
-.tv{
-    width: 23px;
-    height: 23px;
-    content: url(../img/icon_tv.png);
-    padding: 0;
-    margin: 0;
-}
-.wifi{
-    width: 23px;
-    height: 23px;
-    content: url(../img/icon_wifi.png);
-    padding: 0;
-    margin: 0;
-}
-.pet{
-    width: 23px;
-    height: 23px;
-    content: url(../img/icon_pets.png);
-    padding: 0;
-    margin: 0;
-}
-.list{
-    margin: 4px 10px;
-    vertical-align: middle
-}
-article .amenities ul{
-    padding: 0px;
-    padding-top: 10px;
-    margin: 0 auto;
-}
-article .amenities li{
-    display: flex;
-    padding-top: 8px;
-    margin: 0;
-    text-align: left;
-    list-style:none;
-}
-article .amenities h2{
-    text-align: left;
-    font-size: 16px;
-    border-bottom: 1px solid #DDDDDD
-}
-.reviews{
-    margin-top: 40px
-}
-.reviews h2{
-    text-align: left;
-    font-size: 16px;
-    border-bottom: 1px solid #DDDDDD
-}
-.reviews ul{
-    margin: 0;
-    padding: 0;
-    list-style:none
-}
-.reviews p{
-    font-size: 12px;
-    margin: 0;
-    margin-bottom: 15px;
-}
-.reviews h3{
-    margin: 0;
-    margin-top: 15px;
-    margin-bottom: 5px;
-    font-size: 14px;
-}
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" type="image/x-icon" href="../webstatic/img/icon.png" />
+        <link rel="stylesheet" href="styles/102-header.css">
+        <link rel="stylesheet" href="styles/102-footer.css">
+        <link rel="stylesheet" href="styles/102-filters.css">
+        <link rel="stylesheet" href="styles/102-common.css">
+        <link rel="stylesheet" href="styles/102-places.css">
+	</head>
+	<body>
+        <header>
+            <div class="logo"></div>
+        </header>
+        <div class="container">
+            <section class="filters">
+                <div class="locations">
+                    <h3>States</h3>
+                    <h4>abeukuta,look...</h4>
+                    <ul class="popover">
+                        <h2>ogun</h2>
+                        <li>abeukuta</li>
+                        <li>osun</li>
+                        <h2>ogun</h2>
+                        <li>abeukuta</li>
+                        <li>osun</li>
+                    </ul>
+                </div>
+                <div class="amenities">
+                    <h3>Amenities</h3>
+                    <h4>social,tv...</h4>
+                    <ul class="popover">
+                        <li>television</li>
+                        <li>chair</li>
+                        <li>television</li>
+                        <li>chair</li>
+                        <li>television</li>
+                        <li>chair</li>
+                    </ul>
+                </div>
+                <button>
+                    Search
+                </button>
+            </section>
+            <section class="places">
+                <h1>Places</h1>
+                <article>
+                    <div class="headline">
+                        <h2>MY HOME</h2>
+                        <div class="price_by_night">$180</div>
+                    </div>
+                    <div class="information">
+                        <div class="max_guest">
+                            <div class="icon1">
+                            </div>
+                            <p>2 guests</p>
+                        </div>
+                        <div class="number_rooms">
+                            <div class="icon2">
+                            </div>
+                            <p>2 bedrooms</p>
+                        </div>
+                        <div class="number_bathrooms">
+                            <div class="icon3">
+                            </div>
+                            <p>1 bathroom</p>
+                        </div>
+                    </div>
+                    <div class="user">
+                        <b>Owner</b>: oni progress
+                    </div>
+                    <div class="description">
+                        <p>
+                            A DISCRIPTION IS VERY LAZY IN THEIS PARY OF THE WORLD SUP loop and you sup
+                            look on the kool sujjjd cent mezw sowqe vety gew zea bet u no sabi muss
+                        </p>
+                    </div>
+                    <div class="amenities">
+                        <h2 class="sub">Amenities</h2>
+                        <ul>
+                            <li>
+                                <p class="tv"></p>
+                                <p class="list">TV</p>
+                            </li>
+                            <li>
+                                <p class="wifi"></p>
+                                <p class="list">WIFI</p>
+                            </li>
+                            <li>
+                                <p class="pet"></p>
+                                <p class="list">PET-FRIENDLY</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="reviews">
+                        <h2 class="sub">Reviews</h2>
+                        <ul>
+                            <li>
+                                <div class="review_item">
+                                    <h3 class="review_name">From Bob Dylan the 27th January 2017</h3>
+                                    <p class="review_text">it was a nice time my visite there</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="review_item">
+                                    <h3 class="review_name">From Bob Dylan the 27th January 2017</h3>
+                                    <p class="review_text">it was a nice time my visite there</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+                <article>
+                    <div class="headline">
+                        <h2>TINY HOUSE</h2>
+                        <div class="price_by_night">$180</div>
+                    </div>
+                    <div class="information">
+                        <div class="max_guest">
+                            <div class="icon1">
+                            </div>
+                            <p>2 guests</p>
+                        </div>
+                        <div class="number_rooms">
+                            <div class="icon2">
+                            </div>
+                            <p>2 bedrooms</p>
+                        </div>
+                        <div class="number_bathrooms">
+                            <div class="icon3">
+                            </div>
+                            <p>1 bathroom</p>
+                        </div>
+                    </div>
+                    <div class="user">
+                        <b>Owner</b>: oni progress
+                    </div>
+                    <div class="description">
+                        <p>
+                            A DISCRIPTION IS VERY LAZY IN THEIS PARY OF THE WORLD SUP loop and you sup
+                            look on the kool sujjjd cent mezw sowqe vety gew zea bet u no sabi muss
+                        </p>
+                    </div>
+                    <div class="amenities">
+                        <h2 class="sub">Amenities</h2>
+                        <ul>
+                            <li>
+                                <p class="tv"></p>
+                                <p class="list">TV</p>
+                            </li>
+                            <li>
+                                <p class="wifi"></p>
+                                <p class="list">WIFI</p>
+                            </li>
+                            <li>
+                                <p class="pet"></p>
+                                <p class="list">PET-FRIENDLY</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="reviews">
+                        <h2 class="sub">Reviews</h2>
+                        <ul>
+                            <li>
+                                <div class="review_item">
+                                    <h3 class="review_name">From Bob Dylan the 27th January 2017</h3>
+                                    <p class="review_text">it was a nice time my visite there</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="review_item">
+                                    <h3 class="review_name">From Bob Dylan the 27th January 2017</h3>
+                                    <p class="review_text">it was a nice time my visite there</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+                <article>
+                    <div class="headline">
+                        <h2>A SUITE</h2>
+                        <div class="price_by_night">$180</div>
+                    </div>
+                    <div class="information">
+                        <div class="max_guest">
+                            <div class="icon1">
+                            </div>
+                            <p>2 guests</p>
+                        </div>
+                        <div class="number_rooms">
+                            <div class="icon2">
+                            </div>
+                            <p>2 bedrooms</p>
+                        </div>
+                        <div class="number_bathrooms">
+                            <div class="icon3">
+                            </div>
+                            <p>1 bathroom</p>
+                        </div>
+                    </div>
+                    <div class="user">
+                        <b>Owner</b>: oni progress
+                    </div>
+                    <div class="description">
+                        <p>
+                            A DISCRIPTION IS VERY LAZY IN THEIS PARY OF THE WORLD SUP loop and you sup
+                            look on the kool sujjjd cent mezw sowqe vety gew zea bet u no sabi muss
+                        </p>
+                    </div>
+                    <div class="amenities">
+                        <h2 class="sub">Amenities</h2>
+                        <ul>
+                            <li>
+                                <p class="tv"></p>
+                                <p class="list">TV</p>
+                            </li>
+                            <li>
+                                <p class="wifi"></p>
+                                <p class="list">WIFI</p>
+                            </li>
+                            <li>
+                                <p class="pet"></p>
+                                <p class="list">PET-FRIENDLY</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="reviews">
+                        <h2 class="sub">Reviews</h2>
+                        <ul>
+                            <li>
+                                <div class="review_item">
+                                    <h3 class="review_name">From Bob Dylan the 27th January 2017</h3>
+                                    <p class="review_text">it was a nice time my visite there</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="review_item">
+                                    <h3 class="review_name">From Bob Dylan the 27th January 2017</h3>
+                                    <p class="review_text">it was a nice time my visite there</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+            </section>
+        </div>
+        <footer>
+            <p>Best School</p>
+        </footer>
+	</body>
+</html>
