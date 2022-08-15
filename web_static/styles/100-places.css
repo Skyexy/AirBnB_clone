@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html>
 	<head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" type="image/x-icon" href="../webstatic/img/icon.png" />
-        <link rel="stylesheet" href="styles/102-header.css">
-        <link rel="stylesheet" href="styles/102-footer.css">
-        <link rel="stylesheet" href="styles/102-filters.css">
-        <link rel="stylesheet" href="styles/102-common.css">
-        <link rel="stylesheet" href="styles/102-places.css">
+        <link rel="stylesheet" href="styles/3-header.css">
+        <link rel="stylesheet" href="styles/3-footer.css">
+        <link rel="stylesheet" href="styles/6-filters.css">
+        <link rel="stylesheet" href="styles/4-common.css">
+        <link rel="stylesheet" href="styles/100-places.css">
 	</head>
 	<body>
         <header>
