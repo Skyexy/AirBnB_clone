@@ -77,13 +77,13 @@ article h2{
     width: 100px;
 }
 .icon1{
-    content: url(../img/icon_group.png);
+    content: url(../images/icon_group.png);
 }
 .icon2{
-    content: url(../img/icon_bed.png);
+    content: url(../images/icon_bed.png);
 }
 .icon3{
-    content: url(../img/icon_bath.png);
+    content: url(../images/icon_bath.png);
 }
 .max_guest p, .number_rooms p, .number_bathrooms p{
     margin: 0px;
@@ -109,21 +109,21 @@ article .amenities{
 .tv{
     width: 23px;
     height: 23px;
-    content: url(../img/icon_tv.png);
+    content: url(../images/icon_tv.png);
     padding: 0;
     margin: 0;
 }
 .wifi{
     width: 23px;
     height: 23px;
-    content: url(../img/icon_wifi.png);
+    content: url(../images/icon_wifi.png);
     padding: 0;
     margin: 0;
 }
 .pet{
     width: 23px;
     height: 23px;
-    content: url(../img/icon_pets.png);
+    content: url(../images/icon_pets.png);
     padding: 0;
     margin: 0;
 }
